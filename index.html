@@ -4,30 +4,43 @@
     <meta charset="UTF-8">
     <title>Metanet X 분석 리포트</title>
     <style>
-        body { font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
-        .container { text-align: center; }
+        body { font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .container { text-align: center; width: 100%; max-width: 900px; }
+        
+        /* 카드들을 가로로 정렬하기 위한 스타일 */
+        .card-wrapper { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; padding: 20px; }
+        
         .feature-card { 
             background: white; border-radius: 20px; padding: 40px; 
             box-shadow: 0 15px 30px rgba(0,0,0,0.1); cursor: pointer; 
-            transition: all 0.3s ease; text-decoration: none; display: block;
-            border: 1px solid #e1e4e8;
+            transition: all 0.3s ease; text-decoration: none; 
+            display: block; border: 1px solid #e1e4e8;
+            width: 300px; /* 카드 너비 고정 */
         }
-        .feature-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .feature-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); border-color: #0056b3; }
         .icon { font-size: 60px; margin-bottom: 20px; }
         h1 { margin-bottom: 50px; color: #1a1a1a; font-size: 2.5rem; }
         h2 { margin: 0; font-size: 24px; color: #0056b3; }
-        p { color: #666; margin-top: 10px; }
+        p { color: #666; margin-top: 10px; line-height: 1.5; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Metanet X 프로젝트</h1>
         
-        <a href="metanet_tech.html" class="feature-card">
-            <div class="icon">🚀</div>
-            <h2>메타넷엑스 기술 자료조사</h2>
-            <p>상세 분석 및 기술 스택 리포트 확인</p>
-        </a>
+        <div class="card-wrapper">
+            <a href="metanet_tech.html" class="feature-card">
+                <div class="icon">🚀</div>
+                <h2>기술 자료조사</h2>
+                <p>메타넷엑스 상세 분석 및<br>기술 스택 리포트 확인</p>
+            </a>
+
+            <a href="msp_guide.html" class="feature-card">
+                <div class="icon">🛠️</div>
+                <h2>MSP 기술소개</h2>
+                <p>24/365 클라우드 운영 및<br>관리 서비스(MSP) 상세 안내</p>
+            </a>
+        </div>
     </div>
 </body>
 </html>
