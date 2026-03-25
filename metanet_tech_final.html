@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>메타넷 티플랫폼 기술 역량 + 용어사전</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000000;
+  --bg2: #0a0a0a;
+  --bg3: #111111;
+  --bg4: #181818;
+  --border: rgba(255,255,255,0.12);
+  --border2: rgba(255,255,255,0.06);
+  --cyan: #00c8f0;
+  --blue: #2d8fdd;
+  --white: #ffffff;
+  --gray: #aaaaaa;
+  --gray2: #666666;
+  --accent: #00c8f0;
+  --glow: 0 0 24px rgba(0,200,240,0.18);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Noto Sans KR', sans-serif;
+  overflow-x: hidden;
+}
+
+/* 배경 그리드 */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none; z-index:0;
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  padding:14px 40px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(0,0,0,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px; letter-spacing:3px; color:var(--white);
+}
+.nav-logo span { color:var(--cyan); }
+.nav-links { display:flex; gap:24px; list-style:none; flex-wrap:wrap; }
+.nav-links a {
+  font-size:11px; letter-spacing:2px; color:var(--gray);
+  text-decoration:none; text-transform:uppercase;
+  font-family:'Rajdhani',sans-serif; font-weight:600;
+  transition:color 0.2s;
+}
+.nav-links a:hover, .nav-links a.hl { color:var(--cyan); }
+@media(max-width:640px){ .nav-links{display:none;} }
+
+/* ── HERO ── */
+.hero {
+  position:relative; min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center; padding:100px 20px 80px;
+  overflow:hidden;
+}
+.hero-orb {
+  position:absolute; border-radius:50%;
+  filter:blur(90px); pointer-events:none;
+}
+.orb1 { width:500px;height:500px; background:radial-gradient(circle,rgba(0,200,240,0.12),transparent 70%); top:-80px;left:-80px; animation:pulse 9s ease-in-out infinite; }
+.orb2 { width:400px;height:400px; background:radial-gradient(circle,rgba(45,143,221,0.1),transparent 70%); bottom:-80px;right:-80px; animation:pulse 11s ease-in-out infinite reverse; }
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:.8;} 50%{transform:scale(1.1);opacity:1;} }
+
+.hero-inner { position:relative; z-index:1; }
+.hero-badge {
+  display:inline-block;
+  border:1px solid var(--cyan); color:var(--cyan);
+  font-size:11px; letter-spacing:4px; padding:5px 14px;
+  margin-bottom:22px;
+  font-family:'Rajdhani',sans-serif; font-weight:600;
+  animation:fadeDown .8s ease both;
+}
+.hero h1 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(50px,9vw,120px);
+  letter-spacing:4px; line-height:.92;
+  background:linear-gradient(135deg,#fff 30%,var(--cyan) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:fadeDown .8s .2s ease both;
+}
+.hero-sub {
+  font-size:clamp(12px,1.8vw,15px); color:var(--gray);
+  margin-top:18px; letter-spacing:2px; font-weight:300;
+  animation:fadeDown .8s .4s ease both;
+}
+.hero-stats {
+  display:flex; gap:32px; justify-content:center; flex-wrap:wrap;
+  margin-top:52px;
+  animation:fadeUp .8s .6s ease both;
+}
+.stat {
+  padding:18px 26px; border:1px solid var(--border);
+  background:rgba(255,255,255,0.03);
+  transition:all .3s; cursor:default;
+  position:relative; overflow:hidden;
+}
+.stat::before {
+  content:''; position:absolute; top:0;left:0;right:0; height:1px;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  transform:scaleX(0); transition:transform .3s;
+}
+.stat:hover::before{transform:scaleX(1);}
+.stat:hover{border-color:rgba(0,200,240,.4); box-shadow:var(--glow); transform:translateY(-3px);}
+.stat-n { font-family:'Bebas Neue',sans-serif; font-size:38px; color:var(--cyan); letter-spacing:2px; line-height:1; }
+.stat-l { font-size:10px; color:var(--gray); margin-top:4px; letter-spacing:1px; }
+
+@keyframes fadeDown { from{opacity:0;transform:translateY(-18px);} to{opacity:1;transform:none;} }
+@keyframes fadeUp   { from{opacity:0;transform:translateY(18px);}  to{opacity:1;transform:none;} }
+
+/* ── REVEAL ── */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease,transform .7s ease; }
+.reveal.on { opacity:1; transform:none; }
+
+/* ── DIVIDER ── */
+hr.div {
+  border:none; height:1px; position:relative; z-index:1;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  margin:0 40px;
+}
+
+/* ── SECTION WRAPPER ── */
+.sec {
+  position:relative; z-index:1;
+  padding:80px 40px; max-width:1200px; margin:0 auto;
+}
+.sec-lbl {
+  font-family:'Rajdhani',sans-serif; font-size:11px;
+  letter-spacing:5px; color:var(--cyan); text-transform:uppercase;
+  margin-bottom:10px; display:flex; align-items:center; gap:10px;
+}
+.sec-lbl::after { content:''; flex:1; max-width:50px; height:1px; background:var(--cyan); }
+.sec-ttl {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(30px,5vw,54px); letter-spacing:3px;
+  margin-bottom:44px; line-height:1; color:var(--white);
+}
+
+/* ── PILLARS ── */
+.pillars {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2px; background:var(--border); border:1px solid var(--border);
+}
+.pillar {
+  background:var(--bg); padding:38px 30px;
+  position:relative; overflow:hidden; cursor:default;
+  transition:background .3s;
+}
+.pillar::after {
+  content:''; position:absolute; bottom:0;left:0;right:0; height:2px;
+  transform:scaleX(0); transition:transform .3s; transform-origin:left;
+}
+.pillar:nth-child(1)::after{background:#2d8fdd;}
+.pillar:nth-child(2)::after{background:#00c8f0;}
+.pillar:nth-child(3)::after{background:#1a9f6f;}
+.pillar:hover{background:var(--bg3);}
+.pillar:hover::after{transform:scaleX(1);}
+.pillar-n {
+  font-family:'Bebas Neue',sans-serif; font-size:60px;
+  color:rgba(255,255,255,.04); position:absolute; top:16px;right:20px; line-height:1;
+}
+.pillar-ico{font-size:30px;margin-bottom:14px;display:block;}
+.pillar h3{font-size:17px;font-weight:700;margin-bottom:10px;color:var(--white);}
+.pillar p{font-size:13px;color:var(--gray);line-height:1.75;font-weight:300;}
+
+/* ── GRID 2 col ── */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+@media(max-width:768px){.g2{grid-template-columns:1fr;}}
+
+/* ── SEC CARD ── */
+.sc {
+  border:1px solid var(--border); padding:26px;
+  position:relative; overflow:hidden; transition:all .3s;
+  background:var(--bg2);
+}
+.sc::before {
+  content:''; position:absolute; top:0;left:0; width:2px; height:100%;
+  background:linear-gradient(180deg,var(--blue),var(--cyan));
+  opacity:0; transition:opacity .3s;
+}
+.sc:hover{border-color:rgba(0,200,240,.35); box-shadow:var(--glow);}
+.sc:hover::before{opacity:1;}
+.sc-ttl {
+  font-size:14px; font-weight:700; margin-bottom:14px; color:var(--cyan);
+  display:flex; align-items:center; gap:8px;
+}
+.sc-ttl span{width:5px;height:5px;background:var(--cyan);display:inline-block;transform:rotate(45deg);flex-shrink:0;}
+.sc ul{list-style:none;}
+.sc ul li {
+  font-size:13px; color:var(--gray); padding:5px 0 5px 14px;
+  position:relative; font-weight:300; line-height:1.55;
+  border-bottom:1px solid var(--border2);
+}
+.sc ul li::before{content:'—';position:absolute;left:0;color:rgba(0,200,240,.4);font-size:9px;}
+
+/* ── PLATFORM TAGS ── */
+.ptags{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.ptag {
+  padding:5px 14px; border:1px solid var(--border);
+  font-size:12px; font-family:'Rajdhani',sans-serif; font-weight:600;
+  letter-spacing:1px; color:var(--blue);
+  background:rgba(255,255,255,.03); transition:all .2s; cursor:default;
+}
+.ptag:hover{background:rgba(0,200,240,.08);border-color:var(--cyan);color:var(--white);}
+
+/* ── AWS FEAT ── */
+.awsgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:6px;}
+.awsf{
+  padding:18px; border:1px solid var(--border); background:var(--bg2);
+  text-align:center; transition:all .3s; cursor:default;
+}
+.awsf:hover{border-color:rgba(255,153,0,.4);box-shadow:0 0 18px rgba(255,153,0,.08);transform:translateY(-2px);}
+.awsf-ico{font-size:26px;margin-bottom:8px;}
+.awsf-lbl{font-size:13px;font-weight:500;color:var(--white);}
+.awsf-desc{font-size:11px;color:var(--gray);margin-top:5px;line-height:1.55;}
+
+/* ── TABLE ── */
+.stbl{width:100%;border-collapse:collapse;font-size:13px;}
+.stbl thead th{
+  padding:11px 14px; background:rgba(255,255,255,.04);
+  border:1px solid var(--border); font-weight:700;
+  color:var(--cyan); text-align:left; letter-spacing:1px; font-size:11px;
+}
+.stbl tbody td{
+  padding:11px 14px; border:1px solid var(--border2);
+  color:var(--gray); font-weight:300; line-height:1.55; vertical-align:top;
+}
+.stbl tbody tr:hover td{background:rgba(255,255,255,.03);color:var(--white);}
+.stbl .cat{color:var(--white);font-weight:500;white-space:nowrap;}
+
+/* ── BENEFIT ROW ── */
+.brow{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);}
+@media(max-width:768px){.brow{grid-template-columns:1fr;}}
+.bc{
+  padding:34px 26px; border-right:1px solid var(--border);
+  position:relative; overflow:hidden; transition:background .3s; cursor:default;
+}
+.bc:last-child{border-right:none;}
+.bc:hover{background:var(--bg3);}
+.bc-n{font-family:'Bebas Neue',sans-serif;font-size:72px;color:rgba(255,255,255,.03);line-height:1;position:absolute;top:8px;right:16px;}
+.bc h4{font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:14px;letter-spacing:1px;}
+.bc ul{list-style:none;}
+.bc ul li{
+  font-size:12px;color:var(--gray);padding:4px 0 4px 13px;
+  position:relative;font-weight:300;line-height:1.6;
+}
+.bc ul li::before{content:'▸';position:absolute;left:0;color:var(--blue);font-size:10px;top:5px;}
+
+/* ── CERT GRID ── */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;}
+.cc{
+  border:1px solid var(--border); padding:22px;
+  display:flex; align-items:flex-start; gap:14px;
+  transition:all .3s; cursor:default; background:var(--bg2);
+}
+.cc:hover{border-color:rgba(0,200,240,.4);box-shadow:var(--glow);}
+.cc-ico{
+  width:42px;height:42px; background:rgba(255,255,255,.05);
+  border:1px solid var(--border); display:flex;align-items:center;justify-content:center;
+  font-size:19px; flex-shrink:0;
+}
+.cc-name{font-size:13px;font-weight:700;color:var(--white);margin-bottom:3px;}
+.cc-det{font-size:11px;color:var(--gray);line-height:1.55;}
+
+/* ── PARTNER ── */
+.psec{
+  background:rgba(255,255,255,.02); border:1px solid var(--border);
+  padding:36px;
+}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:20px;}
+.pchip{
+  padding:9px 14px; border:1px solid var(--border2);
+  font-size:12px; font-family:'Rajdhani',sans-serif; font-weight:600;
+  letter-spacing:1px; color:var(--gray); text-align:center;
+  transition:all .2s; cursor:default;
+}
+.pchip:hover{border-color:var(--blue);color:var(--white);background:rgba(0,200,240,.06);}
+.plbl{font-size:11px;color:var(--cyan);letter-spacing:2px;font-family:'Rajdhani',sans-serif;font-weight:600;}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:1;
+  background:var(--bg3); border-top:1px solid var(--border);
+  padding:56px 40px; text-align:center;
+}
+footer p{color:var(--gray);font-size:13px;margin-top:7px;font-weight:300;}
+footer a{color:var(--cyan);text-decoration:none;}
+footer strong{color:var(--white);}
+
+/* ════════════════════════════
+   📖 용어사전 전용 스타일
+   ════════════════════════════ */
+.dict-wrap{position:relative;z-index:1;padding:0 40px 80px;max-width:1200px;margin:0 auto;}
+@media(max-width:640px){.dict-wrap{padding:0 20px 60px;}}
+
+.dict-ch-ttl{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:32px; letter-spacing:3px; color:var(--white);
+  margin-bottom:28px; padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:12px;
+}
+.dict-ch-ttl .emo{font-size:32px;}
+.dict-ch-ttl .sub{font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:4px;color:var(--cyan);display:block;font-weight:600;}
+
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+@media(max-width:640px){.tgrid{grid-template-columns:1fr;}}
+
+/* 아코디언 카드 */
+.tc{
+  border:1px solid var(--border); background:var(--bg2);
+  overflow:hidden; transition:border-color .3s,box-shadow .3s; cursor:pointer;
+}
+.tc:hover{border-color:rgba(0,200,240,.35); box-shadow:var(--glow);}
+.tc.open{border-color:rgba(0,200,240,.5); box-shadow:var(--glow);}
+.th{
+  padding:18px 20px; display:flex; align-items:center; gap:12px;
+  user-select:none;
+}
+.th-emo{font-size:24px;flex-shrink:0;}
+.th-name{font-size:14px;font-weight:700;color:var(--white);flex:1;}
+.th-abbr{
+  font-family:'Rajdhani',sans-serif;font-size:10px;letter-spacing:2px;
+  color:var(--cyan);background:rgba(0,200,240,.08);
+  border:1px solid rgba(0,200,240,.2);padding:2px 7px;white-space:nowrap;
+}
+.th-arr{font-size:11px;color:var(--gray);transition:transform .3s;flex-shrink:0;}
+.tc.open .th-arr{transform:rotate(180deg);color:var(--cyan);}
+
+.tb{
+  max-height:0; overflow:hidden;
+  transition:max-height .4s ease,padding .3s;
+  padding:0 20px;
+}
+.tc.open .tb{max-height:700px;padding:0 20px 20px;}
+
+.tb-tag{font-size:13px;font-weight:600;color:var(--cyan);margin-bottom:8px;line-height:1.5;}
+.tb-desc{font-size:13px;color:#cccccc;line-height:1.9;font-weight:300;}
+.tb-desc strong{color:var(--white);font-weight:600;}
+.hi{
+  display:block;
+  background:rgba(0,200,240,.07);border-left:2px solid var(--cyan);
+  padding:7px 11px;margin:9px 0;
+  font-size:13px;color:#cccccc;line-height:1.7;
+}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.tag{
+  font-size:10px;font-family:'Rajdhani',sans-serif;font-weight:600;
+  letter-spacing:1px;padding:2px 7px;
+  border:1px solid rgba(45,143,221,.25);color:var(--blue);
+  background:rgba(45,143,221,.06);
+}
+
+/* 챕터 구분선 */
+.chsep{
+  position:relative;z-index:1;
+  border:none;height:1px;margin:0 40px;
+  background:linear-gradient(90deg,transparent,rgba(0,200,240,.15),transparent);
+}
+
+/* 용어사전 intro 배너 */
+.dict-intro{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,rgba(0,200,240,.06),rgba(45,143,221,.04));
+  border:1px solid rgba(0,200,240,.2);
+  padding:40px; max-width:1200px; margin:0 auto 0;
+}
+.dict-intro h2{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(28px,4vw,48px);letter-spacing:3px;margin-bottom:10px;
+}
+.dict-intro p{font-size:14px;color:var(--gray);line-height:1.8;}
+.dict-intro p strong{color:var(--cyan);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">METANET <span>T</span>PLATFORM</div>
+  <ul class="nav-links">
+    <li><a href="#overview">개요</a></li>
+    <li><a href="#security">보안관제</a></li>
+    <li><a href="#aws">AWS</a></li>
+    <li><a href="#cert">인증</a></li>
+    <li><a href="#glossary" class="hl">📖 용어사전</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero" id="overview">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">TECHNOLOGY OVERVIEW 2025</div>
+    <h1>메타넷<br>티플랫폼</h1>
+    <p class="hero-sub">국내 유일 End-to-End Hybrid Cloud Integrator &nbsp;|&nbsp; 클라우드 보안관제 전문기업</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">1위</div><div class="stat-l">국내 최대 IT인프라 서비스</div></div>
+      <div class="stat"><div class="stat-n">3,145억</div><div class="stat-l">FY2022 매출액</div></div>
+      <div class="stat"><div class="stat-n">400+</div><div class="stat-l">IT 엔지니어</div></div>
+      <div class="stat"><div class="stat-n">100%</div><div class="stat-l">국내 시총 100대 기업 고객</div></div>
+      <div class="stat"><div class="stat-n">25개</div><div class="stat-l">글로벌 오피스</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- 3대 핵심 -->
+<section class="sec reveal">
+  <div class="sec-lbl">CORE CAPABILITIES</div>
+  <h2 class="sec-ttl">3대 핵심 서비스 영역</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <span class="pillar-n">01</span>
+      <span class="pillar-ico">☁️</span>
+      <h3>Cloud MSP</h3>
+      <p>AWS, Azure, Oracle Cloud, GCP, NCP, NHN Cloud 등 멀티 클라우드 환경에서의 컨설팅-구축-운영 End-to-End 서비스. On-Prem 100% Cloud Migration 레퍼런스 보유. 24×365 매니지드 서비스 제공.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-n">02</span>
+      <span class="pillar-ico">🛡️</span>
+      <h3>Hybrid Cloud Security</h3>
+      <p>국내 유일 AWS 보안관제 파트너(ECIRA). MS 2023 보안 부문 Top Partner. 과학기술정보통신부 지정 보안관제 전문기업. SPLUNK Gold Standard Level 관제 서비스.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-n">03</span>
+      <span class="pillar-ico">🖥️</span>
+      <h3>IT Infra Service</h3>
+      <p>High-End Infra 구축 1위 기술력. Private/Public Cloud 통합 구축. 5대 은행 코어뱅킹 인프라 구축 이력. 미션크리티컬 금융 시스템 운영/유지보수 전문.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- 보안관제 -->
+<section class="sec reveal" id="security">
+  <div class="sec-lbl">MCSOC FRAMEWORK</div>
+  <h2 class="sec-ttl">통합 보안관제 기술</h2>
+  <div class="g2">
+    <div class="sc"><div class="sc-ttl"><span></span>Cloud 통합 보안구축</div><ul><li>SOAR (보안 오케스트레이션 자동화 대응)</li><li>Security Portal 구축 및 운영</li><li>SOC (보안관제센터) 구성</li><li>Cloud Security 통합 아키텍처</li></ul></div>
+    <div class="sc"><div class="sc-ttl"><span></span>Cloud 보안운영/관제 (24×365)</div><ul><li>AI 기반 보안관제 시스템</li><li>SPLUNK (ML) 기반 고급 분석</li><li>SPLUNK Gold Standard Level 체계</li><li>AWS 차세대 보안관제 서비스 (ECIRA)</li><li>메타넷 SOC를 통한 MTP 내 24×365 모니터링</li></ul></div>
+    <div class="sc"><div class="sc-ttl"><span></span>클라우드 보안관리 플랫폼 (M-CSMP)</div><ul><li>클라우드 형상관리 (CSPM) — Paloalto</li><li>클라우드 워크로드 보안 (CWPP) — Paloalto</li><li>클라우드 접근보안 중계 및 인증 (CASB) — Zscaler, RSA</li><li>클라우드 인프라 보안 — Netwitness, Zscaler, Fortinet, Cybereason</li></ul></div>
+    <div class="sc"><div class="sc-ttl"><span></span>보안 컨설팅 & 진단</div><ul><li>보안정책 및 전략 수립</li><li>중장기 보안 로드맵</li><li>취약점 분석 및 Compliance 대응</li><li>Threat Simulation &amp; Hunting</li><li>Cyber Resilience Strategy</li></ul></div>
+    <div class="sc"><div class="sc-ttl"><span></span>Azure Native 관제</div><ul><li>Microsoft Sentinel — SIEM 운영관리, 탐지시나리오 튜닝</li><li>Azure Firewall/WAF — 탐지 로그 분석</li><li>MS Defender for Cloud (CSPM, CWPP)</li><li>MS Defender for Endpoint (EDR, 포렌식)</li><li>O365 관제 — Logic App 기반 대응자동화</li></ul></div>
+    <div class="sc"><div class="sc-ttl"><span></span>AWS Native 관제</div><ul><li>AWS WAF — Automation 플레이북 제공</li><li>AWS Network Firewall — IP/URL 차단</li><li>AWS Security Hub — CSPM 컴플라이언스 점검</li><li>Amazon GuardDuty — Automation 플레이북</li><li>CloudTrail, Config, VPC Flow 모니터링</li><li>Amazon QuickSight — 주간/월간 통계 보고서</li></ul></div>
+  </div>
+  <div style="margin-top:28px;padding:24px;border:1px solid var(--border);background:var(--bg2);">
+    <p class="plbl" style="margin-bottom:10px;">SIEM + PACKET 분석 플랫폼</p>
+    <div class="ptags"><div class="ptag">Microsoft Sentinel</div><div class="ptag">Splunk Enterprise</div><div class="ptag">Cortex XDR (Paloalto)</div><div class="ptag">Netwitness</div><div class="ptag">Logpresso</div><div class="ptag">Datadog</div></div>
+    <p class="plbl" style="margin-top:18px;margin-bottom:10px;">3RD PARTY 보안 솔루션</p>
+    <div class="ptags"><div class="ptag">Splunk</div><div class="ptag">Paloalto</div><div class="ptag">Fortinet</div><div class="ptag">Zscaler</div><div class="ptag">RSA</div><div class="ptag">Trellix</div><div class="ptag">CrowdStrike</div><div class="ptag">Cybereason</div><div class="ptag">Logpresso Sonar</div><div class="ptag">Netwitness</div></div>
+  </div>
+</section>
+
+<!-- SOC 도입효과 -->
+<section class="sec reveal">
+  <div class="sec-lbl">CLOUD SOC BENEFIT</div>
+  <h2 class="sec-ttl">보안관제 도입 효과</h2>
+  <div class="brow">
+    <div class="bc"><div class="bc-n">01</div><h4>TCO 절감</h4><ul><li>보안장비 구축/운영 비용절감</li><li>전문인력 확보/유지 비용 효율화</li><li>24×365 감시 체계 운영 비용 감소</li></ul></div>
+    <div class="bc"><div class="bc-n">02</div><h4>안정적 침해대응</h4><ul><li>휴일/야간 비근무 시간대 보안 침해 대응</li><li>클라우드 보안 전문 조직/인력 활용</li><li>글로벌 리딩 보안관제 플랫폼 기반 품질 보장</li></ul></div>
+    <div class="bc"><div class="bc-n">03</div><h4>비즈니스 경쟁력</h4><ul><li>침해사고로 인한 대외 리스크 감소</li><li>고객에게 안정적 서비스로 신뢰도 확보</li></ul></div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- AWS -->
+<section class="sec reveal" id="aws">
+  <div class="sec-lbl">AWS ADVANCED TIER SERVICES PARTNER</div>
+  <h2 class="sec-ttl">AWS 전문 서비스</h2>
+  <div class="awsgrid">
+    <div class="awsf"><div class="awsf-ico">🔍</div><div class="awsf-lbl">클라우드 컨설팅</div><div class="awsf-desc">도입 진단·평가, 7R 전략 수립, 아키텍처 설계, 마스터 플랜</div></div>
+    <div class="awsf"><div class="awsf-ico">🚀</div><div class="awsf-lbl">클라우드 마이그레이션</div><div class="awsf-desc">퍼블릭/프라이빗/온프레미스 자산의 AWS 안전 이전, MicroService 아키텍처 재설계</div></div>
+    <div class="awsf"><div class="awsf-ico">⚙️</div><div class="awsf-lbl">클라우드 Managed</div><div class="awsf-desc">E2E 운영관리, 리소스 관리, 장애 대응, 비용 최적화, 정기 리포트</div></div>
+    <div class="awsf"><div class="awsf-ico">🔄</div><div class="awsf-lbl">AWS DR 서비스</div><div class="awsf-desc">AWS DRS 기반 고효율 DR 설계. Active/Active, Warm Standby, Pilot Light 옵션 제공</div></div>
+    <div class="awsf"><div class="awsf-ico">🛡️</div><div class="awsf-lbl">AWS 차세대 보안관제</div><div class="awsf-desc">침해탐지·분석·대응 통합 지원. Lambda 자동화, Prowler 취약점 진단, QuickSight 대시보드</div></div>
+    <div class="awsf"><div class="awsf-ico">📊</div><div class="awsf-lbl">자산 Discovery</div><div class="awsf-desc">AWS 계정 현황, 자산 현황 및 아키텍처 구성도 자동 제공</div></div>
+  </div>
+  <div style="margin-top:28px;overflow-x:auto;">
+    <table class="stbl">
+      <thead><tr><th>구분</th><th>대상</th><th>수행 내역</th></tr></thead>
+      <tbody>
+        <tr><td class="cat" rowspan="2">SIEM 구축</td><td>Sentinel / Splunk / Cortex</td><td>연계 대상 로그 수집·정제, 탐지 시나리오 적용, 시스템 연계, 대시보드 구성</td></tr>
+        <tr><td>Azure M365 E5</td><td>보안솔루션 가동, Sentinel M365 시나리오 적용, IR Automation(LogicApp)</td></tr>
+        <tr><td class="cat" rowspan="4">AWS 구축</td><td>Amazon QuickSight</td><td>표준 대시보드 제공, 주간/월간 통계 보고서</td></tr>
+        <tr><td>IR Automation (Lambda)</td><td>고위험 정책 변경 이벤트 자동 차단, 포렌식 정보 자동 수집</td></tr>
+        <tr><td>AWS 자산 Discovery</td><td>AWS 계정 현황, 자산 현황, 아키텍처 구성도</td></tr>
+        <tr><td>Prowler 취약점 진단</td><td>Best Practice 대비 Cloud 설정 취약점 점검</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- IT INFRA -->
+<section class="sec reveal">
+  <div class="sec-lbl">IT INFRA SERVICE</div>
+  <h2 class="sec-ttl">IT 인프라 기술</h2>
+  <div class="g2">
+    <div class="sc"><div class="sc-ttl"><span></span>Private Cloud / 가상화</div><ul><li>IBM Unix (Power VM) 가상화</li><li>Linux 가상화 인프라 — Dell-EMC, HPE, Lenovo, Nutanix, Cisco</li><li>AI 인프라 구축 (GPU, AI/ML 플랫폼)</li><li>VMware vSphere, vCenter, vSAN, Cloud Foundation</li><li>Red Hat Enterprise Linux / Virtualization / OpenShift</li></ul></div>
+    <div class="sc"><div class="sc-ttl"><span></span>퍼블릭 클라우드 MSP</div><ul><li>AWS (Amazon), Azure (MS), OCI (Oracle), GCP (Google)</li><li>NCP (네이버), NHN Cloud, SCP (삼성)</li><li>Datadog 클라우드 모니터링 (Observability)</li><li>Veeam 클라우드 백업</li><li>Terraform (프로비저닝 자동화), Vault (보안/접근제어)</li></ul></div>
+    <div class="sc"><div class="sc-ttl"><span></span>Software Modernization</div><ul><li>Kubernetes 및 오픈소스 기반 SaaS 솔루션</li><li>MS SaaS (M365, MS-SQL 외), Copilot 솔루션</li><li>Red Hat OpenShift 컨테이너 플랫폼</li><li>DevOps 파이프라인 구성 (GitLab, Jenkins, CodeDeploy)</li></ul></div>
+    <div class="sc"><div class="sc-ttl"><span></span>클라우드 관리 자동화</div><ul><li>Ansible 기반 관리 자동화</li><li>모니터링 — onTune, Watap, Dynatrace</li><li>CDC 솔루션 (Quest)</li><li>AR 솔루션 (TeamViewer)</li><li>IaC (Infrastructure as Code) 기반 프로비저닝</li></ul></div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- 인증 -->
+<section class="sec reveal" id="cert">
+  <div class="sec-lbl">CERTIFICATIONS &amp; PARTNERSHIPS</div>
+  <h2 class="sec-ttl">인증 및 파트너십</h2>
+  <div class="cgrid">
+    <div class="cc"><div class="cc-ico">🏅</div><div><div class="cc-name">AWS Advanced Tier Services Partner</div><div class="cc-det">2025년 취득 · AWS 인증 전문 인력 및 우수 고객 경험 보유 기업에만 부여</div></div></div>
+    <div class="cc"><div class="cc-ico">🔒</div><div><div class="cc-name">AWS 보안관제 파트너 (ECIRA) — 국내 유일</div><div class="cc-det">2023년 취득 · AWS 차세대 보안관제 플랫폼 ECIRA 활용 국내 1호 파트너</div></div></div>
+    <div class="cc"><div class="cc-ico">🏆</div><div><div class="cc-name">MS 2023 보안 부문 Top Partner</div><div class="cc-det">Microsoft Korea Partner Award 2023 보안 부문 Top Partner for Security 수상</div></div></div>
+    <div class="cc"><div class="cc-ico">📜</div><div><div class="cc-name">보안관제 전문기업 지정</div><div class="cc-det">2023년 · 과학기술정보통신부 · 국가·공공기관 대상 보안관제 서비스 제공 공인</div></div></div>
+    <div class="cc"><div class="cc-ico">🌿</div><div><div class="cc-name">ISO 14001:2015 (환경경영)</div><div class="cc-det">ICR 인증 · IT Infra Service, Public/Hybrid Cloud, ITO/NWS, Security Solution &amp; Consulting</div></div></div>
+    <div class="cc"><div class="cc-ico">✅</div><div><div class="cc-name">ISO 9001:2015 (품질경영)</div><div class="cc-det">ICR 인증 · 동일 서비스 범위 · 품질경영 시스템 적합</div></div></div>
+    <div class="cc"><div class="cc-ico">💳</div><div><div class="cc-name">기업신용 등급 A–</div><div class="cc-det">NICE평가정보 · 2025년 5월 19일 평가 · 유효기간 2026년 5월 18일</div></div></div>
+    <div class="cc"><div class="cc-ico">🤝</div><div><div class="cc-name">Microsoft Sentinel 보안관제 서비스 업체</div><div class="cc-det">글로벌 리딩 SIEM 솔루션 기반 선진화된 24×365 보안관제</div></div></div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- 파트너 -->
+<section class="sec reveal">
+  <div class="sec-lbl">PARTNER ECOSYSTEM</div>
+  <h2 class="sec-ttl">기술 파트너 생태계</h2>
+  <div class="psec">
+    <p class="plbl">CLOUD PLATFORM</p>
+    <div class="pgrid" style="margin-bottom:24px;"><div class="pchip">AWS</div><div class="pchip">Microsoft Azure</div><div class="pchip">Oracle Cloud</div><div class="pchip">Google Cloud</div><div class="pchip">NAVER Cloud</div><div class="pchip">NHN Cloud</div><div class="pchip">삼성 SCP</div></div>
+    <p class="plbl" style="margin-top:16px;">SECURITY</p>
+    <div class="pgrid" style="margin-bottom:24px;"><div class="pchip">Paloalto Networks</div><div class="pchip">Microsoft Sentinel</div><div class="pchip">Splunk</div><div class="pchip">Zscaler</div><div class="pchip">Fortinet</div><div class="pchip">CrowdStrike</div><div class="pchip">Cybereason</div><div class="pchip">RSA</div><div class="pchip">Trellix</div><div class="pchip">Netwitness</div><div class="pchip">Logpresso</div><div class="pchip">Datadog</div></div>
+    <p class="plbl" style="margin-top:16px;">INFRA / PLATFORM</p>
+    <div class="pgrid"><div class="pchip">IBM</div><div class="pchip">Dell Technologies</div><div class="pchip">HPE</div><div class="pchip">Cisco</div><div class="pchip">Lenovo</div><div class="pchip">Nutanix</div><div class="pchip">VMware</div><div class="pchip">Red Hat</div><div class="pchip">Veritas</div><div class="pchip">Veeam</div><div class="pchip">Quest</div><div class="pchip">TeamViewer</div></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     📖 기술 용어 사전
+══════════════════════════════════════════ -->
+<hr class="div" id="glossary">
+
+<section class="sec reveal">
+  <div class="sec-lbl">TECH DICTIONARY</div>
+  <h2 class="sec-ttl" style="margin-bottom:12px;">📖 기술 용어 완전 해설</h2>
+  <p style="color:var(--gray);font-size:14px;line-height:1.8;max-width:800px;margin-bottom:20px;">
+    메타넷 티플랫폼의 모든 기술 용어를 <strong style="color:var(--cyan);">고등학생도 이해할 수 있도록</strong> 하나하나 풀어 설명합니다.<br>
+    각 카드를 <strong style="color:var(--white);">클릭</strong>하면 자세한 설명이 펼쳐집니다.
+  </p>
+</section>
+
+<!-- ── A: 클라우드 기초 ── -->
+<div class="dict-wrap reveal">
+  <div class="dict-ch-ttl"><span class="emo">☁️</span><div><span class="sub">CHAPTER A</span>클라우드 기초 개념</div></div>
+  <div class="tgrid">
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🏢</span><span class="th-name">클라우드 (Cloud)</span><span class="th-abbr">CLOUD</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">인터넷 너머 어딘가에 있는 거대한 컴퓨터 창고</div>
+        <div class="tb-desc">예전에는 회사가 직접 서버(컴퓨터)를 사서 방 한 칸을 채워야 했습니다. 클라우드는 이걸 <strong>매달 요금을 내고 빌려 쓰는 것</strong>입니다.<br><br><span class="hi">📦 비유: 창고를 직접 짓는 대신 → 창고 임대 서비스를 이용하는 것</span>필요할 때 크게, 한산할 때 작게 조절할 수 있어 비용과 유연성 모두 이득입니다. AWS(아마존), Azure(마이크로소프트), GCP(구글)이 세계 3대 클라우드입니다.<div class="tags"><span class="tag">AWS</span><span class="tag">Azure</span><span class="tag">GCP</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🖥️</span><span class="th-name">온프레미스 (On-Premise)</span><span class="th-abbr">ON-PREM</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">회사 건물 안에 직접 서버를 두는 방식</div>
+        <div class="tb-desc">클라우드의 반대 개념으로, 회사가 직접 서버 장비를 구매하고 유지·관리합니다.<br><br><span class="hi">🏠 비유: 집을 직접 사서 관리하는 것 ↔ 월세(클라우드)</span>초기 비용이 크지만 데이터가 회사 밖으로 나가지 않아 <strong>보안에 민감한 금융·공공기관</strong>이 선호합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔀</span><span class="th-name">하이브리드 클라우드</span><span class="th-abbr">HYBRID CLOUD</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">회사 내부 서버 + 클라우드를 함께 사용하는 방식</div>
+        <div class="tb-desc">중요한 데이터는 회사 내부에, 유연성이 필요한 부분은 클라우드에 올리는 <strong>혼합 방식</strong>입니다.<br><br><span class="hi">🍱 비유: 집밥(온프레미스) + 배달음식(클라우드)을 상황에 따라 선택</span>보안과 유연성을 동시에 챙길 수 있어 대기업·금융기관에서 많이 사용합니다. 메타넷의 핵심 사업 영역입니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">📋</span><span class="th-name">IaaS / PaaS / SaaS</span><span class="th-abbr">SERVICE MODELS</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">클라우드 서비스의 3가지 제공 방식</div>
+        <div class="tb-desc"><strong>IaaS</strong> (Infrastructure as a Service): 서버·네트워크만 빌려줌 → 건물 뼈대만 제공<br><strong>PaaS</strong> (Platform as a Service): 개발 환경까지 빌려줌 → 인테리어까지 된 공간<br><strong>SaaS</strong> (Software as a Service): 완성된 소프트웨어 자체를 빌려줌 → 꾸며진 집에 바로 입주<br><br><span class="hi">📌 예시: IaaS=AWS EC2, PaaS=Google App Engine, SaaS=Gmail·Netflix</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🗂️</span><span class="th-name">멀티 클라우드</span><span class="th-abbr">MULTI CLOUD</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">AWS, Azure, GCP 등 여러 클라우드를 동시에 쓰는 전략</div>
+        <div class="tb-desc">하나의 회사가 AWS, Azure, 네이버 클라우드를 <strong>동시에 사용</strong>하는 전략입니다.<br><br><span class="hi">🛒 비유: 쿠팡·11번가·네이버쇼핑을 비교하며 최저가 주문하는 것</span>특정 클라우드에 의존하지 않아 장애 위험이 줄고, 각 클라우드의 장점을 골라 쓸 수 있습니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🚚</span><span class="th-name">클라우드 마이그레이션</span><span class="th-abbr">MIGRATION</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">기존 IT 시스템을 클라우드로 이사시키는 작업</div>
+        <div class="tb-desc">회사가 오래 쓰던 서버와 시스템을 클라우드로 옮기는 것입니다. 통째로 옮기거나(Lift &amp; Shift), 이사하는 김에 재설계하는 방법 등 다양한 전략이 있습니다.<br><br><span class="hi">🏚️→🏠 비유: 낡은 집에서 새 아파트로 이사하는 것</span>메타넷은 NCP/VMware → AWS 같은 복잡한 이사 작업을 전문으로 수행합니다.<div class="tags"><span class="tag">7R 전략</span><span class="tag">Lift &amp; Shift</span><span class="tag">Re-architecture</span></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="chsep">
+
+<!-- ── B: MSP & 운영 ── -->
+<div class="dict-wrap reveal">
+  <div class="dict-ch-ttl"><span class="emo">⚙️</span><div><span class="sub">CHAPTER B</span>MSP &amp; 클라우드 운영</div></div>
+  <div class="tgrid">
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🏭</span><span class="th-name">MSP (Managed Service Provider)</span><span class="th-abbr">MSP</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">클라우드를 대신 관리해주는 전문 회사</div>
+        <div class="tb-desc">기업이 클라우드를 구축하고 운영하는 전 과정을 대행해주는 IT 서비스 회사입니다. 24시간 365일 모니터링, 비용 최적화, 장애 대응까지 맡아줍니다.<br><br><span class="hi">🧑‍🔧 비유: 건물 관리인 — 집주인(기업) 대신 건물(클라우드)의 모든 것을 관리</span>메타넷은 <strong>AWS Advanced Tier MSP 파트너</strong>로, 삼성전자·KB국민은행 등의 클라우드를 관리합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔃</span><span class="th-name">DevOps</span><span class="th-abbr">DEVOPS</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">개발팀과 운영팀이 한 팀처럼 움직이는 방식</div>
+        <div class="tb-desc"><strong>Dev</strong>elopment(개발) + <strong>Op</strong>eration<strong>s</strong>(운영)의 합성어입니다. 두 팀이 긴밀하게 협력해 <strong>빠르고 안정적으로 소프트웨어를 배포</strong>하는 문화·방식입니다.<br><br><span class="hi">🏭 비유: 요리사(개발)와 홀 직원(운영)이 함께 메뉴 개선을 논의하는 레스토랑</span><div class="tags"><span class="tag">CI/CD</span><span class="tag">GitLab</span><span class="tag">Jenkins</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔄</span><span class="th-name">CI/CD (지속적 통합/배포)</span><span class="th-abbr">CI/CD</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">코드 변경사항을 자동으로 테스트하고 배포하는 파이프라인</div>
+        <div class="tb-desc"><strong>CI</strong> (Continuous Integration): 코드를 합칠 때마다 자동으로 테스트 → 오류 즉시 발견<br><strong>CD</strong> (Continuous Deployment): 테스트 통과한 코드를 자동으로 서비스에 배포<br><br><span class="hi">🏃 비유: 음식 주문 → 자동 조리 → 자동 배달까지 전 과정 자동화</span>메타넷은 GitLab, Jenkins, AWS CodeDeploy를 활용합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">📜</span><span class="th-name">IaC (Infrastructure as Code)</span><span class="th-abbr">IaC</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">서버 인프라 설정을 코드로 자동화하는 방법</div>
+        <div class="tb-desc">서버 100대를 손으로 세팅하는 대신, 코드 한 번 실행으로 자동 처리합니다.<br><br><span class="hi">🖨️ 비유: 집 설계도(코드)만 있으면 버튼 하나로 집 1000채를 자동 건설</span>Terraform, Ansible이 대표 도구입니다.<div class="tags"><span class="tag">Terraform</span><span class="tag">Ansible</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">📦</span><span class="th-name">컨테이너 (Container)</span><span class="th-abbr">CONTAINER</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">앱을 독립된 박스에 넣어 어디서나 똑같이 실행시키는 기술</div>
+        <div class="tb-desc">"내 컴퓨터에선 되는데 서버에선 안 돼요" 문제를 해결합니다. 앱 실행에 필요한 모든 것을 하나의 <strong>박스(컨테이너)</strong>에 담아 어떤 환경에서도 동일하게 실행됩니다.<br><br><span class="hi">🚢 비유: 국제 표준 컨테이너 — 배에도, 트럭에도, 기차에도 올릴 수 있는 표준 박스</span><div class="tags"><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">OpenShift</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🎛️</span><span class="th-name">Kubernetes (쿠버네티스)</span><span class="th-abbr">K8S</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">수천 개의 컨테이너를 자동으로 관리·배분하는 시스템</div>
+        <div class="tb-desc">컨테이너가 수백~수천 개가 되면 혼자 관리 불가능합니다. Kubernetes는 컨테이너들을 자동 배분하고, 하나가 죽으면 새걸 띄워주고, 트래픽이 몰리면 수를 늘리는 <strong>자동 관리 시스템</strong>입니다.<br><br><span class="hi">🕹️ 비유: 수천 명의 직원(컨테이너)에게 자동으로 업무를 배분하는 AI 인사팀장</span>구글이 만들었으며, "K8s"라고도 부릅니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔁</span><span class="th-name">재해복구 DR (Disaster Recovery)</span><span class="th-abbr">DR / RTO / RPO</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">지진·화재·해킹 발생 시 빠르게 서비스를 복구하는 체계</div>
+        <div class="tb-desc"><strong>RTO</strong> (Recovery Time Objective): 복구에 걸리는 최대 허용 시간 (예: 20분 이내)<br><strong>RPO</strong> (Recovery Point Objective): 데이터를 어느 시점까지 복구 가능한가 (예: 10분 전)<br><br><span class="hi">🚑 비유: 화재보험 + 소방 대피 훈련 + 백업 창고를 동시에 갖추는 것</span>금융기관은 법적으로 DR 센터 구축이 의무입니다. 메타넷은 AWS DRS로 비용 효율적 DR을 구축합니다.<div class="tags"><span class="tag">AWS DRS</span><span class="tag">Active/Active</span><span class="tag">Warm Standby</span><span class="tag">Pilot Light</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">💰</span><span class="th-name">FinOps (클라우드 비용 최적화)</span><span class="th-abbr">FINOPS</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">클라우드 비용을 낭비 없이 관리하는 방법론</div>
+        <div class="tb-desc">클라우드는 쓴 만큼 요금이 나오기 때문에 방심하면 요금폭탄이 옵니다. FinOps는 클라우드 비용을 실시간으로 분석해 <strong>불필요한 낭비를 찾아내고 절감</strong>하는 관리 체계입니다.<br><br><span class="hi">💡 비유: 전기·가스 요금이 갑자기 늘었을 때 어디서 낭비되는지 찾아 줄이는 것</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🖥️</span><span class="th-name">가상화 (Virtualization)</span><span class="th-abbr">VM</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">물리 서버 1대를 여러 대처럼 사용하는 기술</div>
+        <div class="tb-desc">실제 서버(물리 서버) 1대 위에 소프트웨어를 이용해 <strong>여러 개의 가상 컴퓨터(VM)</strong>를 만드는 기술입니다.<br><br><span class="hi">🏢 비유: 큰 사무실 하나를 파티션으로 나눠 여러 회사가 사용하는 것</span>VMware vSphere, IBM PowerVM, Red Hat Virtualization이 대표 제품입니다.<div class="tags"><span class="tag">VMware</span><span class="tag">IBM PowerVM</span><span class="tag">Hyper-V</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🏗️</span><span class="th-name">MSA (마이크로서비스 아키텍처)</span><span class="th-abbr">MSA</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">하나의 거대한 앱을 작은 기능 단위로 쪼개는 설계</div>
+        <div class="tb-desc">쇼핑몰의 주문·결제·배송을 하나의 거대한 프로그램 대신 <strong>독립적인 작은 서비스</strong>들로 분리합니다.<br><br><span class="hi">🍕 비유: 모든 요리를 혼자 하는 식당 → 역할별로 분리된 공장형 주방</span>하나가 고장나도 나머지는 정상 동작하고, 각 서비스를 독립적으로 업데이트할 수 있습니다.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="chsep">
+
+<!-- ── C: 보안 ── -->
+<div class="dict-wrap reveal">
+  <div class="dict-ch-ttl"><span class="emo">🛡️</span><div><span class="sub">CHAPTER C</span>보안 핵심 개념</div></div>
+  <div class="tgrid">
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🏰</span><span class="th-name">SOC (보안관제센터)</span><span class="th-abbr">SOC</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">회사의 사이버 보안을 24시간 지키는 전문 팀·센터</div>
+        <div class="tb-desc">Security Operation Center의 약자입니다. 해킹 시도, 악성코드, 이상 접속 등을 <strong>24시간 365일</strong> 감시하고 즉시 대응합니다.<br><br><span class="hi">🚨 비유: 경찰서 상황실 — 도시 전체의 CCTV를 모니터링하다 범죄 발생 시 즉시 출동</span>메타넷의 SOC는 <strong>MCSOC</strong>(Metanet Cloud Security Operation Center)로 불립니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🤖</span><span class="th-name">SOAR (보안 자동화 대응)</span><span class="th-abbr">SOAR</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">보안 위협을 자동으로 탐지하고 처리하는 시스템</div>
+        <div class="tb-desc">Security Orchestration, Automation and Response의 약자입니다. 사람이 일일이 처리하던 보안 대응을 <strong>자동화</strong>해줍니다.<br><br><span class="hi">예시: 해킹 의심 IP 탐지 → 자동 차단 → 담당자 알림 → 보고서 자동 작성</span>AWS에서는 <strong>Lambda 함수</strong>로 이를 구현합니다.<div class="tags"><span class="tag">자동화</span><span class="tag">Lambda</span><span class="tag">Playbook</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">📡</span><span class="th-name">SIEM (보안 정보 이벤트 관리)</span><span class="th-abbr">SIEM</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">회사 전체의 보안 로그를 한 곳에 모아 분석하는 시스템</div>
+        <div class="tb-desc">Security Information and Event Management의 약자입니다. 서버, 방화벽, PC, 클라우드 등 수천 개 장비의 로그를 <strong>한 곳에 모아 패턴 분석</strong>으로 공격을 탐지합니다.<br><br><span class="hi">🔬 비유: 수천 명의 통화 기록을 AI로 분석해 사기 전화를 찾아내는 것</span><div class="tags"><span class="tag">Splunk</span><span class="tag">Microsoft Sentinel</span><span class="tag">Logpresso</span><span class="tag">Netwitness</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🧱</span><span class="th-name">방화벽 (Firewall)</span><span class="th-abbr">FIREWALL</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">허가받지 않은 인터넷 접속을 막는 첫 번째 방어선</div>
+        <div class="tb-desc">회사 네트워크로 들어오고 나가는 모든 데이터를 검사해 <strong>허가된 것만 통과</strong>시키는 장치·소프트웨어입니다.<br><br><span class="hi">🚧 비유: 아파트 입구의 경비원 — 주민증 확인 후 통과, 모르는 사람은 차단</span><div class="tags"><span class="tag">Fortinet</span><span class="tag">AWS Network Firewall</span><span class="tag">Azure Firewall</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🌐</span><span class="th-name">WAF (웹 방화벽)</span><span class="th-abbr">WAF</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">웹사이트를 노리는 해킹 공격을 막는 전용 방화벽</div>
+        <div class="tb-desc">Web Application Firewall의 약자입니다. 일반 방화벽이 네트워크 수준을 막는다면, WAF는 웹사이트를 겨냥한 공격(SQL 인젝션, XSS 등)을 전문으로 막습니다.<br><br><span class="hi">🎯 비유: 일반 경비원(방화벽) vs. 해킹 전문 보안 요원(WAF)</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔍</span><span class="th-name">EDR (엔드포인트 탐지 및 대응)</span><span class="th-abbr">EDR</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">직원 PC·노트북에서 악성 행위를 탐지하는 보안 소프트웨어</div>
+        <div class="tb-desc">Endpoint Detection and Response의 약자입니다. 기존 백신이 알려진 바이러스만 잡는다면, EDR은 <strong>행동 패턴을 분석</strong>해 신종 악성코드, 랜섬웨어도 탐지합니다.<br><br><span class="hi">🕵️ 비유: 도둑 얼굴을 몰라도 "수상한 행동"을 보고 잡는 AI 경비원</span><div class="tags"><span class="tag">CrowdStrike</span><span class="tag">Cybereason</span><span class="tag">MDE</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔎</span><span class="th-name">XDR (확장형 탐지 및 대응)</span><span class="th-abbr">XDR</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">EDR을 넘어 네트워크·클라우드·이메일까지 통합 탐지</div>
+        <div class="tb-desc">Extended Detection and Response의 약자입니다. EDR이 PC만 본다면, XDR은 <strong>네트워크, 클라우드, 이메일, 서버</strong>까지 전방위 탐지하고 상관관계를 분석합니다.<br><br><span class="hi">🔭 비유: 동네 경비원(EDR) → 도시 전체를 보는 통합관제센터(XDR)</span><div class="tags"><span class="tag">Cortex XDR</span><span class="tag">Trellix</span><span class="tag">NDR</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">☁️</span><span class="th-name">CSPM (클라우드 형상 관리)</span><span class="th-abbr">CSPM</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">클라우드 잘못된 설정으로 생기는 보안 구멍을 찾아주는 도구</div>
+        <div class="tb-desc">Cloud Security Posture Management의 약자입니다. 클라우드 설정 실수로 "모든 사람이 접근 가능"하게 열어두는 경우가 많습니다. CSPM은 이런 <strong>잘못된 설정(Misconfiguration)을 자동으로 찾아</strong> 수정을 권고합니다.<br><br><span class="hi">🔧 비유: 집 문단속 체크리스트 — 창문·가스는 잠겼는지 자동 점검</span><div class="tags"><span class="tag">FRIIM</span><span class="tag">AWS Security Hub</span><span class="tag">Prisma Cloud</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🛡️</span><span class="th-name">CWPP (클라우드 워크로드 보안)</span><span class="th-abbr">CWPP</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">클라우드에서 실행 중인 서버·컨테이너를 직접 보호하는 기술</div>
+        <div class="tb-desc">Cloud Workload Protection Platform의 약자입니다. CSPM이 "설정이 올바른지" 확인한다면, CWPP는 실제로 <strong>돌아가고 있는 서버와 컨테이너 내부</strong>를 보호합니다.<br><br><span class="hi">💊 비유: CSPM = 집 잠금장치 점검 / CWPP = 집 안에서 생활하는 사람 보호</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🚪</span><span class="th-name">CASB (클라우드 접근 보안 중계)</span><span class="th-abbr">CASB</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">클라우드 서비스 접속을 중간에서 검사·통제하는 보안 게이트</div>
+        <div class="tb-desc">Cloud Access Security Broker의 약자입니다. 직원이 회사 몰래 개인 Dropbox에 회사 데이터를 올리는 것을 막고, <strong>승인된 클라우드 서비스만 사용</strong>하도록 통제합니다.<br><br><span class="hi">🚦 비유: 회사 인터넷을 나가는 모든 데이터의 세관 검사관</span><div class="tags"><span class="tag">Zscaler</span><span class="tag">Shadow IT 차단</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔐</span><span class="th-name">MFA / OTP (다단계 인증)</span><span class="th-abbr">MFA</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">비밀번호 외에 추가 인증을 요구하는 보안 장치</div>
+        <div class="tb-desc">Multi-Factor Authentication의 약자입니다. 비밀번호(알고 있는 것) + 스마트폰 인증(갖고 있는 것)처럼 <strong>두 가지 이상</strong>의 방식으로 신원을 확인합니다.<br><br><span class="hi">🔑 비유: 카드 + 비밀번호를 함께 요구하는 ATM</span>비밀번호가 유출되어도 계정을 지킬 수 있습니다.<div class="tags"><span class="tag">RSA SecurID</span><span class="tag">OTP</span><span class="tag">Zero Trust</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🏹</span><span class="th-name">APT (지능형 지속 위협)</span><span class="th-abbr">APT</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">특정 목표를 집중 공략하는 고도로 정교한 해킹 공격</div>
+        <div class="tb-desc">Advanced Persistent Threat의 약자입니다. 국가기관이나 대기업 등 특정 표적을 <strong>몇 달~몇 년에 걸쳐</strong> 지속적으로 공략하는 고도화된 사이버 공격입니다.<br><br><span class="hi">🎯 비유: 일반 소매치기(일반 해킹) vs. 목표 저택만 노리는 전문 강도단(APT)</span><div class="tags"><span class="tag">FireEye</span><span class="tag">Threat Hunting</span><span class="tag">포렌식</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🕵️</span><span class="th-name">포렌식 (Forensics)</span><span class="th-abbr">FORENSICS</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">사이버 범죄의 증거를 수집하고 분석하는 기술</div>
+        <div class="tb-desc">해킹 사고가 발생했을 때 <strong>"누가, 언제, 어떻게, 무엇을 했는지"</strong>를 디지털 흔적을 통해 밝혀내는 조사 기술입니다.<br><br><span class="hi">🔍 비유: CSI 범죄 수사 — 범행 현장의 지문·발자국·CCTV를 분석하는 것</span>메타넷은 Lambda 자동화로 사고 발생 시 포렌식 정보를 즉시 수집합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">📋</span><span class="th-name">컴플라이언스 (Compliance)</span><span class="th-abbr">COMPLIANCE</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">법·규정·기준을 지키고 있는지 확인하는 것</div>
+        <div class="tb-desc">금융기관·병원·공공기관은 개인정보보호법, 전자금융감독규정 등 <strong>수많은 법적 기준</strong>을 지켜야 합니다. 컴플라이언스는 이 기준들을 충족하는지 확인·관리하는 활동입니다.<br><br><span class="hi">📝 비유: 식당의 위생 검사 — 규정을 지키지 않으면 영업 정지</span>CSPM 도구가 클라우드 컴플라이언스 자동 점검을 도와줍니다.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="chsep">
+
+<!-- ── D: AWS 서비스 ── -->
+<div class="dict-wrap reveal">
+  <div class="dict-ch-ttl"><span class="emo">🟠</span><div><span class="sub">CHAPTER D</span>AWS 주요 서비스 해설</div></div>
+  <div class="tgrid">
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🟠</span><span class="th-name">AWS (Amazon Web Services)</span><span class="th-abbr">AWS</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">아마존이 운영하는 세계 1위 클라우드 서비스</div>
+        <div class="tb-desc">전 세계 클라우드 시장의 약 33%를 점유하는 1위 플랫폼입니다. 서버, 데이터베이스, AI, 보안 등 <strong>200개 이상</strong>의 서비스를 제공합니다.<br><br><span class="hi">🌍 넷플릭스, 삼성, 카카오, 금융감독원 등 수백만 기업이 사용</span>메타넷은 2025년 AWS Advanced Tier Services Partner 자격을 획득했습니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">⚡</span><span class="th-name">AWS Lambda</span><span class="th-abbr">LAMBDA</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">서버 없이 코드만 올리면 자동 실행되는 AWS 서비스</div>
+        <div class="tb-desc">서버를 관리하지 않고, 특정 이벤트가 발생할 때만 코드가 실행됩니다(Serverless). 실행 시간만큼만 비용을 냅니다.<br><br><span class="hi">⚙️ 보안 자동화 예시: 해킹 탐지 → Lambda 실행 → 위험 IP 즉시 차단 → 담당자 알림</span>메타넷은 SOAR 자동화에 Lambda를 핵심적으로 활용합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">👮</span><span class="th-name">AWS GuardDuty</span><span class="th-abbr">GUARDDUTY</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">AWS 계정과 리소스를 자동으로 감시하는 위협 탐지 서비스</div>
+        <div class="tb-desc">머신러닝(AI)으로 AWS 환경의 <strong>비정상적인 행동</strong>을 탐지합니다. 해외에서 갑자기 대량 다운로드, 악성 IP에서의 접속 등을 자동으로 발견합니다.<br><br><span class="hi">🚨 비유: 은행 계좌에서 이상한 해외 결제 감지 시 자동으로 카드 정지하는 것</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🏢</span><span class="th-name">AWS Security Hub</span><span class="th-abbr">SECURITY HUB</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">AWS 보안 상태를 한눈에 볼 수 있는 종합 대시보드</div>
+        <div class="tb-desc">GuardDuty, Inspector, Macie 등 여러 AWS 보안 서비스 결과를 <strong>한 곳에 모아 정리</strong>해줍니다. 보안 점수를 매겨 취약 부분을 알려줍니다.<br><br><span class="hi">📊 비유: 건강검진 종합 결과지 — 각 항목의 점수를 한 페이지에 정리</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">📈</span><span class="th-name">Amazon QuickSight</span><span class="th-abbr">QUICKSIGHT</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">데이터를 시각화하는 AWS 대시보드·BI 서비스</div>
+        <div class="tb-desc">복잡한 보안 데이터·클라우드 비용 데이터 등을 <strong>그래프, 차트, 대시보드</strong>로 보기 좋게 시각화합니다.<br><br><span class="hi">📊 비유: 엑셀 데이터를 예쁜 PPT 그래프로 자동 변환해주는 서비스</span>메타넷은 QuickSight로 보안 주간·월간 통계 보고서를 자동 생성해 고객사에 제공합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🗒️</span><span class="th-name">AWS CloudTrail</span><span class="th-abbr">CLOUDTRAIL</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">AWS 계정에서 일어난 모든 행동을 기록하는 로그 서비스</div>
+        <div class="tb-desc">누가, 언제, 어디서, 무엇을 했는지 모든 활동을 기록합니다.<br><br><span class="hi">📹 비유: 회사 출입문의 CCTV + 출입 기록부 — 누가 몇 시에 어느 방에 들어갔는지 모두 기록</span>해킹 사고 조사(포렌식)와 컴플라이언스 감사에 필수적입니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔁</span><span class="th-name">AWS DRS (재해복구 서비스)</span><span class="th-abbr">DRS</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">장애 발생 시 AWS로 빠르게 복구하는 자동화 DR 서비스</div>
+        <div class="tb-desc">AWS Elastic Disaster Recovery Service의 약자입니다. 온프레미스 서버 데이터를 AWS로 지속 복제해두고, 재해 발생 시 <strong>버튼 하나로 즉시 복구</strong>합니다.<br><br><span class="hi">💾 비유: 게임 자동저장 — 갑자기 전원이 나가도 마지막 저장 시점으로 즉시 복구</span>RPO 10분 이하, RTO 20분 이하 수준의 복구가 가능합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🌐</span><span class="th-name">VPC (가상 사설 네트워크)</span><span class="th-abbr">VPC</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">AWS 클라우드 안에 내 전용 가상 네트워크를 만드는 것</div>
+        <div class="tb-desc">Virtual Private Cloud의 약자입니다. AWS 안에 <strong>내 회사만의 독립된 네트워크 공간</strong>을 만들어, 다른 고객의 리소스와 완전히 분리합니다.<br><br><span class="hi">🏘️ 비유: 아파트 단지 안에 담장으로 분리된 내 집만의 마당</span>메타넷은 멀티 VPC 아키텍처를 설계해 보안/개발/운영 환경을 격리합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🚀</span><span class="th-name">Auto Scaling</span><span class="th-abbr">AUTO SCALING</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">트래픽에 따라 서버 수를 자동으로 늘리거나 줄이는 기능</div>
+        <div class="tb-desc">명절에 쇼핑몰 접속자가 10배 몰려도 서버가 자동으로 늘어나고, 한산할 때는 줄어들어 비용을 절감합니다.<br><br><span class="hi">🚕 비유: 출퇴근 시간에 버스를 더 투입하고, 한산할 때 줄이는 것</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔎</span><span class="th-name">ECIRA (AWS 차세대 보안관제)</span><span class="th-abbr">ECIRA</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">AWS가 공식 인정한 차세대 클라우드 보안관제 플랫폼</div>
+        <div class="tb-desc">Enhanced Cloud Incident Response Assessment의 약자입니다. AWS 환경에 최적화된 보안관제 체계로, 침해 탐지→분석→대응의 전 과정을 통합 지원합니다.<br><br><span class="hi">🏅 메타넷은 ECIRA를 활용한 <strong>국내 1호</strong> 파트너로, 2023년 AWS로부터 공식 인정을 받았습니다.</span>Prowler 진단 + GuardDuty + Lambda 자동화를 결합한 최첨단 보안 체계입니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🌊</span><span class="th-name">Amazon Kinesis (데이터 스트리밍)</span><span class="th-abbr">KINESIS</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">대용량 로그·데이터를 실시간으로 수집·전달하는 서비스</div>
+        <div class="tb-desc">초당 수백만 건의 로그 데이터를 실시간으로 수집해 S3(저장소)나 Splunk(SIEM)로 자동 전달합니다.<br><br><span class="hi">🔌 비유: 수천 개의 수도꼭지(로그)를 하나의 대형 파이프로 연결해 저수지(저장소)로 보내는 것</span>메타넷의 AWS 보안관제 아키텍처에서 핵심 로그 수집 역할을 담당합니다.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="chsep">
+
+<!-- ── E: 인프라 기술 ── -->
+<div class="dict-wrap reveal">
+  <div class="dict-ch-ttl"><span class="emo">🖥️</span><div><span class="sub">CHAPTER E</span>인프라 &amp; 네트워크 기술</div></div>
+  <div class="tgrid">
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🗄️</span><span class="th-name">서버 / 스토리지</span><span class="th-abbr">SERVER / STORAGE</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">다른 컴퓨터에게 서비스를 제공하는 강력한 컴퓨터 + 대용량 저장장치</div>
+        <div class="tb-desc"><strong>서버</strong>: 카카오톡을 보낼 때 그 메시지를 받아서 상대방에게 전달하는 역할. 24시간 꺼지지 않고 수백만 명의 요청을 처리합니다.<br><strong>스토리지</strong>: 페타바이트(1,000TB) 단위 기업 데이터를 저장하는 대용량 창고.<br><br><span class="hi">🍽️ 서버 비유: 손님(사용자)의 주문(요청)을 처리해 서빙하는 레스토랑 주방</span><div class="tags"><span class="tag">IBM</span><span class="tag">Dell</span><span class="tag">HPE</span><span class="tag">Lenovo</span><span class="tag">Nutanix</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🏗️</span><span class="th-name">HPC (고성능 컴퓨팅)</span><span class="th-abbr">HPC</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">AI 학습·시뮬레이션·기상예측 등 엄청난 계산을 처리하는 컴퓨팅</div>
+        <div class="tb-desc">High Performance Computing의 약자입니다. 수천 개의 CPU와 GPU를 연결해 일반 컴퓨터로는 수백 년 걸릴 계산을 <strong>몇 시간 만에</strong> 처리합니다.<br><br><span class="hi">🚀 비유: 일반 자동차(개인 PC) vs. F1 레이싱카(HPC)</span>메타넷은 삼성전자 DS부문의 반도체 시뮬레이션용 HPC를 AWS/Azure 멀티 클라우드로 운영합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🏛️</span><span class="th-name">데이터센터 (IDC)</span><span class="th-abbr">IDC / DC</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">수천~수만 대의 서버가 모여 있는 전용 건물</div>
+        <div class="tb-desc">냉방, 전력 이중화, 소화 설비, 물리 보안 등을 갖춘 <strong>서버 전용 건물</strong>입니다.<br><br><span class="hi">🏭 비유: 서버들의 아파트 단지 — 24시간 전기, 냉방, 보안이 완비된 건물</span>클라우드의 등장으로 기업들이 IDC를 직접 운영하는 대신 클라우드를 빌려 쓰는 추세입니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">💠</span><span class="th-name">VMware vSphere / vCenter / vSAN</span><span class="th-abbr">VMWARE</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">서버 가상화의 업계 표준 소프트웨어</div>
+        <div class="tb-desc"><strong>vSphere</strong>: 물리 서버 위에 VM을 만드는 핵심 가상화 엔진<br><strong>vCenter</strong>: 여러 VMware 서버를 한 화면에서 통합 관리하는 도구<br><strong>vSAN</strong>: 여러 서버의 하드디스크를 하나로 묶어 가상 스토리지를 만드는 기능<br><br><span class="hi">🏢 비유: 큰 사무실(물리 서버)을 vSphere로 여러 칸으로 나누고, vCenter로 전 건물을 관리</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔴</span><span class="th-name">Red Hat OpenShift</span><span class="th-abbr">OPENSHIFT</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">기업용 컨테이너 관리 플랫폼 (Kubernetes 기반)</div>
+        <div class="tb-desc">Kubernetes를 기업 환경에 맞게 더 사용하기 쉽고 안전하게 포장한 Red Hat의 플랫폼입니다. 보안, 모니터링, CI/CD가 내장되어 있습니다.<br><br><span class="hi">🚗 비유: Kubernetes = 자동차 엔진 / OpenShift = 에어백·네비·편의기능을 더한 완성차</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔧</span><span class="th-name">Ansible (앤서블)</span><span class="th-abbr">ANSIBLE</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">수천 대 서버 설정을 코드 한 줄로 자동화하는 도구</div>
+        <div class="tb-desc">Red Hat이 만든 IT 자동화 도구입니다. 서버 1,000대에 새 소프트웨어 설치를 <strong>코드 한 번 실행으로</strong> 동시 처리합니다.<br><br><span class="hi">🤖 비유: 공장 자동화 로봇 — 사람이 일일이 할 작업을 자동으로 처리</span>YAML 파일로 원하는 상태를 선언하면 Ansible이 알아서 맞춰줍니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🌍</span><span class="th-name">Terraform</span><span class="th-abbr">TERRAFORM</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">AWS·Azure 등 클라우드 인프라를 코드로 관리하는 도구</div>
+        <div class="tb-desc">HashiCorp가 만든 IaC 도구입니다. AWS, Azure, GCP 등 여러 클라우드를 하나의 코드로 <strong>통합 관리</strong>할 수 있습니다.<br><br><span class="hi">📐 비유: 건축 설계도(Terraform 코드) → 시공사(클라우드)에 던지면 자동 건설</span>"서버 10대 필요해" 라고 쓰면 Terraform이 알아서 만들어줍니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🟡</span><span class="th-name">Nutanix (HCI — 초융합 인프라)</span><span class="th-abbr">HCI</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">서버+스토리지+네트워크를 하나로 합친 초융합 인프라</div>
+        <div class="tb-desc">Hyper-Converged Infrastructure의 대표 브랜드입니다. 예전에는 서버, 스토리지, 네트워크 장비를 따로 사야 했지만, Nutanix는 이를 <strong>하나의 박스로 통합</strong>합니다.<br><br><span class="hi">📱 비유: 카메라+전화+음악+내비가 하나로 합쳐진 스마트폰</span>설치·관리가 간단하고 노드(박스)를 추가해 쉽게 확장할 수 있습니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">💿</span><span class="th-name">백업 (Backup) &amp; Veeam</span><span class="th-abbr">BACKUP</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">데이터를 잃어버려도 복구할 수 있도록 미리 복사해두는 것</div>
+        <div class="tb-desc">랜섬웨어(데이터 암호화 후 돈 요구), 실수 삭제, 재해 등에 대비해 데이터를 <strong>다른 곳에 주기적으로 복사</strong>해두는 작업입니다.<br><br><span class="hi">📸 비유: 스마트폰 자동 사진 백업 — 폰을 잃어버려도 사진은 살아있는 것</span><strong>Veeam</strong>은 기업용 백업·복구 소프트웨어의 글로벌 1위 브랜드입니다.<div class="tags"><span class="tag">Veeam</span><span class="tag">Cohesity</span></div></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔄</span><span class="th-name">CDC (데이터 변경 포착)</span><span class="th-abbr">CDC</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">데이터베이스의 변경사항을 실시간으로 다른 곳에 전달하는 기술</div>
+        <div class="tb-desc">Change Data Capture의 약자입니다. DB에서 새로 추가되거나 수정·삭제된 데이터를 <strong>실시간으로 감지</strong>해 다른 시스템에 반영합니다.<br><br><span class="hi">📡 비유: 원본 문서 변경사항을 실시간으로 여러 사람에게 공유하는 Google Docs</span>메타넷은 Quest CDC 솔루션을 활용합니다.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="chsep">
+
+<!-- ── F: 보안 도구 ── -->
+<div class="dict-wrap reveal">
+  <div class="dict-ch-ttl"><span class="emo">🛠️</span><div><span class="sub">CHAPTER F</span>주요 보안 도구 &amp; 플랫폼</div></div>
+  <div class="tgrid">
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🟣</span><span class="th-name">Splunk</span><span class="th-abbr">SPLUNK</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">대용량 로그를 실시간 분석하는 세계 1위 SIEM 플랫폼</div>
+        <div class="tb-desc">하루에 테라바이트 단위로 쌓이는 서버 로그, 보안 이벤트를 <strong>실시간으로 검색·분석·시각화</strong>합니다. 머신러닝으로 이상 패턴도 자동 탐지합니다.<br><br><span class="hi">🔍 비유: 수억 개의 문자메시지 중에서 사기 문자를 1초 만에 찾아내는 AI</span>메타넷은 Splunk <strong>Gold Standard Level</strong> 운영 체계를 갖춘 국내 최고 수준의 파트너입니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔵</span><span class="th-name">Microsoft Sentinel</span><span class="th-abbr">SENTINEL</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">마이크로소프트의 클라우드 네이티브 SIEM + SOAR 통합 솔루션</div>
+        <div class="tb-desc">Azure 위에서 동작하는 클라우드 SIEM입니다. 별도 서버 구축 없이 Microsoft 365, Azure, 서드파티 도구의 로그를 <strong>바로 연동해 분석</strong>합니다.<br><br><span class="hi">☁️ 기존 SIEM은 서버를 직접 구축해야 했지만, Sentinel은 클라우드에서 바로 시작 가능</span>Logic App으로 자동화 대응(SOAR)도 내장되어 있습니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🐾</span><span class="th-name">CrowdStrike Falcon</span><span class="th-abbr">CROWDSTRIKE</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">클라우드 기반의 AI 엔드포인트 보안 플랫폼</div>
+        <div class="tb-desc">PC·서버에 가벼운 에이전트를 설치하면, 모든 행동 데이터가 CrowdStrike 클라우드로 전송되어 <strong>AI가 실시간으로 위협을 분석</strong>합니다.<br><br><span class="hi">🦅 "매(Falcon)"처럼 위협을 빠르게 발견해 잡는다는 의미의 브랜드명</span>랜섬웨어, 파일리스 공격, APT 등 최신 위협에 특히 강합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🟢</span><span class="th-name">Datadog</span><span class="th-abbr">DATADOG</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">클라우드 인프라·앱·보안을 통합 모니터링하는 플랫폼</div>
+        <div class="tb-desc">서버 성능, 애플리케이션 오류, 클라우드 비용, 보안 이벤트를 <strong>하나의 대시보드</strong>에서 모두 볼 수 있습니다.<br><br><span class="hi">📡 비유: 자동차 계기판 — 속도·연료·엔진 온도를 한 화면에서 한눈에 파악</span>메타넷은 2023년 Datadog 'Voice of Partner'로 선정된 공식 파트너입니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔶</span><span class="th-name">Fortinet</span><span class="th-abbr">FORTINET</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">네트워크 방화벽의 글로벌 1위 보안 회사</div>
+        <div class="tb-desc">FortiGate 방화벽으로 유명한 네트워크 보안 전문 기업입니다. 방화벽, IPS(침입방지), VPN, 웹 필터링을 하나의 장비에 통합합니다.<br><br><span class="hi">🏰 비유: 성벽(방화벽) + 해자 + 경비병 + CCTV가 하나로 합쳐진 통합 방어 시스템</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🌐</span><span class="th-name">Zscaler (제로 트러스트 게이트웨이)</span><span class="th-abbr">ZSCALER / ZTNA</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">아무도 믿지 말고 항상 검증하는 클라우드 보안 서비스</div>
+        <div class="tb-desc"><strong>Zero Trust(제로 트러스트)</strong> 개념 기반의 클라우드 보안 서비스입니다. 회사 네트워크 안에 있다고 해서 다 믿지 말고, <strong>매번 신원을 확인</strong>하는 방식입니다.<br><br><span class="hi">🛂 비유: 공항 탑승구 — 공항 안에 있어도 탑승권 없으면 비행기 못 탐</span>재택근무가 많아진 요즘 필수 보안 솔루션입니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🟤</span><span class="th-name">SAP (기업 전사 자원 관리)</span><span class="th-abbr">SAP ERP</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">회사의 회계·인사·물류·생산을 하나로 통합하는 기업용 소프트웨어</div>
+        <div class="tb-desc">독일 기업 SAP가 만든 ERP(Enterprise Resource Planning) 소프트웨어로, 세계 1위 ERP 솔루션입니다. 회계, 인사, 구매, 물류, 생산 관리를 <strong>하나의 시스템</strong>으로 통합합니다.<br><br><span class="hi">🏭 비유: 회사 전체 부서의 업무를 하나의 앱으로 연결하는 것</span>메타넷은 SAP를 클라우드(Azure, AWS)로 이전하는 프로젝트를 다수 수행합니다.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="chsep">
+
+<!-- ── G: 프로젝트 관리 ── -->
+<div class="dict-wrap reveal">
+  <div class="dict-ch-ttl"><span class="emo">📋</span><div><span class="sub">CHAPTER G</span>프로젝트 관리 &amp; 비즈니스 용어</div></div>
+  <div class="tgrid">
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">📐</span><span class="th-name">아키텍처 (Architecture)</span><span class="th-abbr">ARCHITECTURE</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">IT 시스템의 전체 설계도</div>
+        <div class="tb-desc">서버, 네트워크, 데이터베이스, 보안 등 IT 시스템의 각 요소가 <strong>어떻게 연결되고 동작하는지</strong>를 나타낸 전체 그림입니다.<br><br><span class="hi">🏗️ 비유: 집 짓기 전의 건축 설계도 — 어디에 방이 오고, 어떻게 연결되는지 미리 계획</span>메타넷의 SA(Solution Architect)가 고객사의 클라우드 아키텍처를 설계합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🗺️</span><span class="th-name">PMO (프로젝트 관리 조직)</span><span class="th-abbr">PMO</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">대형 IT 프로젝트를 계획대로 완료시키는 전문 관리 조직</div>
+        <div class="tb-desc">Project Management Office의 약자입니다. 일정, 예산, 인력, 리스크를 <strong>체계적으로 관리</strong>해 프로젝트가 목표대로 완성되도록 합니다.<br><br><span class="hi">🎯 비유: 건물 공사 현장 감독 — 각 팀이 제때 제대로 하는지 총괄 조율</span>메타넷 직원의 18.3%가 PMO 역할을 수행합니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🔢</span><span class="th-name">7R 전략 (클라우드 이전 전략)</span><span class="th-abbr">7R</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">기존 시스템을 클라우드로 옮기는 7가지 방법</div>
+        <div class="tb-desc">AWS가 정의한 마이그레이션 전략 프레임워크입니다.<br><br><strong>Rehost</strong>: 그냥 통째로 옮김 (Lift &amp; Shift)<br><strong>Replatform</strong>: 조금만 수정해서 옮김<br><strong>Repurchase</strong>: SaaS 서비스로 교체<br><strong>Refactor</strong>: 클라우드 네이티브로 재설계<br><strong>Retire</strong>: 안 쓰는 것 폐기<br><strong>Retain</strong>: 당분간 현재 상태 유지<br><strong>Relocate</strong>: 다른 클라우드로 이전<br><br><span class="hi">🏡 비유: 이사할 때 — 가구를 그대로 가져갈지, 새로 살지, 버릴지 결정하는 것</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🤝</span><span class="th-name">SLA (서비스 수준 협약)</span><span class="th-abbr">SLA</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">서비스 품질 기준을 계약으로 보장하는 약속</div>
+        <div class="tb-desc">Service Level Agreement의 약자입니다. "서버 가동률 99.9% 이상 보장", "장애 발생 시 4시간 이내 복구" 같이 <strong>서비스 품질 기준을 수치로 명확히 계약</strong>하는 것입니다.<br><br><span class="hi">📜 비유: 택배 "내일 배송 보장" 서비스 — 못 지키면 환불해주는 명확한 약속</span></div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🏷️</span><span class="th-name">TCO (총 소유 비용)</span><span class="th-abbr">TCO</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">IT 시스템을 도입·운영하는 데 드는 모든 비용의 합계</div>
+        <div class="tb-desc">Total Cost of Ownership의 약자입니다. 장비 구매비만이 아니라 전기료, 인건비, 유지보수비, 업그레이드 비용 등을 <strong>모두 합산</strong>한 실제 비용입니다.<br><br><span class="hi">🚗 비유: 자동차 가격만 보면 안 되고, 기름값+보험+수리비+주차비를 합쳐야 진짜 비용</span>클라우드로 전환하면 TCO를 30~50% 줄일 수 있다는 것이 일반적인 분석입니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">📡</span><span class="th-name">Observability (관찰 가능성)</span><span class="th-abbr">OBSERVABILITY</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">시스템 내부 상태를 외부에서 얼마나 잘 파악할 수 있는가</div>
+        <div class="tb-desc">단순 모니터링(뭔가 이상해!)을 넘어, <strong>왜 이상한지까지 파악</strong>할 수 있는 능력입니다. 로그(기록), 메트릭(수치), 트레이스(추적)의 3가지 요소로 구성됩니다.<br><br><span class="hi">🩺 비유: 체온(메트릭) + 증상일지(로그) + 혈액 경로(트레이스) = 정확한 진단 가능</span>Datadog, Dynatrace가 대표적인 Observability 플랫폼입니다.</div>
+      </div>
+    </div>
+
+    <div class="tc" onclick="tog(this)">
+      <div class="th"><span class="th-emo">🤖</span><span class="th-name">AI/ML 인프라 (GPU 서버)</span><span class="th-abbr">AI INFRA</span><span class="th-arr">▼</span></div>
+      <div class="tb">
+        <div class="tb-tag">AI 모델 학습과 추론을 위한 고성능 컴퓨팅 인프라</div>
+        <div class="tb-desc">ChatGPT 같은 AI를 만들려면 엄청난 계산이 필요합니다. CPU 대신 <strong>GPU(그래픽 처리 장치)</strong>를 수백~수천 개 연결한 서버가 필요합니다.<br><br><span class="hi">🧮 비유: CPU = 수학 천재 1명 / GPU = 평범한 학생 수천 명이 동시에 계산 — AI에는 동시 처리가 핵심</span>메타넷은 GPU 인프라 구축 및 AWS/Azure의 AI 클라우드 서비스를 제공합니다.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;margin-bottom:14px;">
+    MCSOC — <span style="color:var(--cyan);">Metanet Cloud Security Operation Center</span>
+  </div>
+  <p>📞 <strong>02.3704.6644</strong> &nbsp;|&nbsp; ✉️ <strong>mtp@metanetglobal.com</strong></p>
+  <p style="margin-top:7px;">🌐 <a href="https://mtp.metanetglobal.com" target="_blank">mtp.metanetglobal.com</a> &nbsp;|&nbsp; 서울시 종로구 종로33길 15, 연강빌딩 2층, 5층</p>
+  <p style="margin-top:22px;font-size:11px;color:rgba(255,255,255,.2);">© 2025 Metanet Tplatform Co., Ltd. All rights reserved.</p>
+</footer>
+
+<script>
+// 아코디언
+function tog(el) {
+  el.classList.toggle('open');
+}
+
+// 스크롤 reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('on');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
